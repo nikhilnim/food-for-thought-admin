@@ -18,6 +18,7 @@ function NewRecipeForm({ postNewRecipe }) {
 
     },
   });
+  console.log(errors)
   return (
     <>
       <form onSubmit={handleSubmit(postNewRecipe)}>
@@ -134,6 +135,7 @@ function NewRecipeForm({ postNewRecipe }) {
             </p>
           )}
         </div>
+
         <label className="form-label" htmlFor="calories">
             Nutrition
         </label>
@@ -141,7 +143,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Calories</span>
             <input className="form-control"
-            type="number" 
+            type="text" 
             {...register("calories", {
               valueAsNumber: true,required: true
             })}
@@ -158,7 +160,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Fat</span>
             <input className="form-control"
-            type="number" 
+            type="text" 
             {...register("fat", {
               valueAsNumber: true,required: true
             })}
@@ -175,7 +177,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Carbs</span>
             <input className="form-control"
-            type="number" 
+            type="text" 
             {...register("carbs", {
               valueAsNumber: true,required: true
             })}
@@ -192,7 +194,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Protein</span>
             <input className="form-control"
-            type="number" 
+            type="text" 
             {...register("protein", {
               valueAsNumber: true,required: true
             })}
@@ -203,6 +205,20 @@ function NewRecipeForm({ postNewRecipe }) {
                 Please enter protein
               </p>
             )}      
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="serving" className="form-label">
+            Direction  
+          </label>
+          <textarea class="form-control" type="text" {...register("direction", {
+              required: true
+            })} ></textarea>
+          {errors.direction && (
+            <p className="text-danger fs-6 fw-lighter">
+              Please enter the directions
+            </p>
+          )}
         </div>
 
         <button type="submit" className="btn btn-primary" >
