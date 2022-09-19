@@ -10,7 +10,7 @@ function PageHeader() {
         <Navbar.Brand href="#home">Navbar</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/">Dash</Nav.Link>
-          <Nav.Link href="/recipes">Show All Recipes</Nav.Link>
+          <Nav.Link as={Link} to="/recipes" >Show All Recipes</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
