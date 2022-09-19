@@ -10,8 +10,8 @@ function NewRecipePage() {
 
   return ( 
   <>
-  <h2>Add New Recipe</h2>
-<NewRecipeForm postNewRecipe={postNewRecipe}></NewRecipeForm>
+    <h2>Add New Recipe</h2>
+    <NewRecipeForm postNewRecipe={postNewRecipe}></NewRecipeForm>
   </>
    );
 }
