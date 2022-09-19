@@ -143,7 +143,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Calories</span>
             <input className="form-control"
-            type="text" 
+            type="number" step="any"
             {...register("calories", {
               valueAsNumber: true,required: true
             })}
@@ -160,7 +160,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Fat</span>
             <input className="form-control"
-            type="text" 
+            type="number" step="any"
             {...register("fat", {
               valueAsNumber: true,required: true
             })}
@@ -177,7 +177,7 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Carbs</span>
             <input className="form-control"
-            type="text" 
+            type="number" step="any"
             {...register("carbs", {
               valueAsNumber: true,required: true
             })}
@@ -194,9 +194,9 @@ function NewRecipeForm({ postNewRecipe }) {
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Protein</span>
             <input className="form-control"
-            type="text" 
+            type="number" step="any"
             {...register("protein", {
-              valueAsNumber: true,required: true
+              required: true
             })}
           />
           </div>   
