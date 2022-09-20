@@ -18,7 +18,7 @@ function RecipesPage() {
   const params = useParams();
   const navigate = useNavigate();
   let location = useLocation();
-  // console.log(params.id);
+
 
   async function getRecipesList(){
     const {data} = await axios.get(`${REACT_APP_API_SERVER_URL}/recipes`)
