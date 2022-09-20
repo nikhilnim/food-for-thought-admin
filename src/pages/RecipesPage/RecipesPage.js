@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import RecipesList from '../../components/RecipesList/RecipesList';
 
-import { Outlet, useParams, Link, useNavigate } from 'react-router-dom';
+import { Outlet, useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -17,7 +17,8 @@ function RecipesPage() {
   const [activeRecipeId,setActiveRecipeId] = useState(0)
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.id);
+  let location = useLocation();
+  // console.log(params.id);
 
   async function getRecipesList(){
     const {data} = await axios.get(`${REACT_APP_API_SERVER_URL}/recipes`)
@@ -29,9 +30,9 @@ function RecipesPage() {
     if(params.id){
       setActiveRecipeId(params.id)
     }
-  },[params.id])
+  },[params.id,location])
 
-  function TODO(){
+  function loadNewRecipeForm(){
     setActiveRecipeId(0)
     navigate("new")
   }
@@ -40,7 +41,7 @@ function RecipesPage() {
     <Container fluid="xl">
       <Row className=''>
         <Col className='text-end'>
-          <Button variant="primary" onClick={TODO} className="my-3">Add New Recipe</Button>
+          <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button>
         </Col> 
       </Row>
       <Row>

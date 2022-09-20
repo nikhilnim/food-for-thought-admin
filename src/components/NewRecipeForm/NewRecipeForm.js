@@ -1,26 +1,73 @@
+import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
-function NewRecipeForm({ postNewRecipe }) {
+function NewRecipeForm({}) {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
       title: "",
       intro: "",
       type: "",
-      prepTime:"",
-      cookTime:"",
-      serving:"",
-
+      prepTime: "",
+      cookTime: "",
+      serving: "",
+      ingredient: "",
+      calories: "",
+      fat: "",
+      carbs: "",
+      protein: "",
+      direction: "",
     },
   });
-  console.log(errors)
+
+	const { REACT_APP_API_SERVER_URL } = process.env;
+
+  async function postNewRecipe(recipe) {
+    
+    let payload = {
+      title:recipe.title,
+      type:recipe.type,
+      image:recipe.image[0],
+      cookTime:recipe.cookTime,
+      direction:recipe.direction,
+      
+        calories:recipe.calories,
+        fat:recipe.fat,
+        protein:recipe.protein,
+        carbs:recipe.carbs,
+    
+      ingredient:recipe.ingredient,
+      intro:recipe.intro,
+      prepTime:recipe.prepTime,
+      serving:recipe.serving,
+    } 
+
+    console.log(payload)
+
+    try{
+      const {data} = await axios.post(`${REACT_APP_API_SERVER_URL}/recipes`,payload,{
+				headers: {
+				  'Content-Type': 'multipart/form-data'
+				}
+			})
+      reset();
+      navigate("/recipes")
+      console.log(data)
+    }catch(err){
+			console.log(err)
+		}
+    
+  } 
   return (
     <>
+      {/* <Link to="/recipes">link</Link> */}
       <form onSubmit={handleSubmit(postNewRecipe)}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
@@ -39,7 +86,8 @@ function NewRecipeForm({ postNewRecipe }) {
           <label htmlFor="intro" className="form-label">
             Introduction
           </label>
-          <input
+          <textarea rows="5"
+            class="form-control form-control-lg"
             className="form-control form-control-sm"
             {...register("intro", { required: true })}
           />
@@ -62,6 +110,7 @@ function NewRecipeForm({ postNewRecipe }) {
             <option value="">Select Type</option>
             <option value="poultry">Poultry</option>
             <option value="beef">Beef</option>
+            <option value="fish">fish</option>
             <option value="veg">Veg</option>
           </select>
           {errors.type && (
@@ -75,10 +124,12 @@ function NewRecipeForm({ postNewRecipe }) {
           <label htmlFor="prepTime" className="form-label">
             Prep Time in min
           </label>
-          <input className="form-control form-control-sm"
-            type="number" 
+          <input
+            className="form-control form-control-sm"
+            type="number"
             {...register("prepTime", {
-              valueAsNumber: true,required: true
+              valueAsNumber: true,
+              required: true,
             })}
           />
           {errors.prepTime && (
@@ -92,10 +143,12 @@ function NewRecipeForm({ postNewRecipe }) {
           <label htmlFor="cookTime" className="form-label">
             Cooking time
           </label>
-          <input className="form-control form-control-sm"
-            type="number" 
+          <input
+            className="form-control form-control-sm"
+            type="number"
             {...register("cookTime", {
-              valueAsNumber: true,required: true
+              valueAsNumber: true,
+              required: true,
             })}
           />
           {errors.cookTime && (
@@ -109,10 +162,12 @@ function NewRecipeForm({ postNewRecipe }) {
           <label htmlFor="serving" className="form-label">
             Serving Size
           </label>
-          <input className="form-control form-control-sm"
-            type="number" 
+          <input
+            className="form-control form-control-sm"
+            type="number"
             {...register("serving", {
-              valueAsNumber: true,required: true
+              valueAsNumber: true,
+              required: true,
             })}
           />
           {errors.serving && (
@@ -124,11 +179,15 @@ function NewRecipeForm({ postNewRecipe }) {
 
         <div className="mb-3">
           <label htmlFor="serving" className="form-label">
-            Ingredient  
+            Ingredient
           </label>
-          <textarea class="form-control" type="text" {...register("ingredient", {
-              required: true
-            })} ></textarea>
+          <textarea rows="10"
+            class="form-control form-control-lg"
+            type="text"
+            {...register("ingredient", {
+              required: true,
+            })}
+          ></textarea>
           {errors.ingredient && (
             <p className="text-danger fs-6 fw-lighter">
               Please enter the ingredients
@@ -137,83 +196,100 @@ function NewRecipeForm({ postNewRecipe }) {
         </div>
 
         <label className="form-label" htmlFor="calories">
-            Nutrition
+          Nutrition
         </label>
         <div className="mb-3">
           <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">Calories</span>
-            <input className="form-control"
-            type="number" step="any"
-            {...register("calories", {
-              valueAsNumber: true,required: true
-            })}
-          />
-          </div>   
+            <span class="input-group-text" id="basic-addon1">
+              Calories
+            </span>
+            <input
+              className="form-control"
+              type="number"
+              step="any"
+              {...register("calories", {
+                valueAsNumber: true,
+                required: true,
+              })}
+            />
+          </div>
           {errors.calories && (
-              <p className="text-danger fs-6 fw-lighter">
-                Please enter calories
-              </p>
-            )}      
+            <p className="text-danger fs-6 fw-lighter">Please enter calories</p>
+          )}
         </div>
 
         <div className="mb-3">
           <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">Fat</span>
-            <input className="form-control"
-            type="number" step="any"
-            {...register("fat", {
-              valueAsNumber: true,required: true
-            })}
-          />
-          </div>   
+            <span class="input-group-text" id="basic-addon1">
+              Fat
+            </span>
+            <input
+              className="form-control"
+              type="number"
+              step="any"
+              {...register("fat", {
+                valueAsNumber: true,
+                required: true,
+              })}
+            />
+          </div>
           {errors.fat && (
-              <p className="text-danger fs-6 fw-lighter">
-                Please enter fats
-              </p>
-            )}      
+            <p className="text-danger fs-6 fw-lighter">Please enter fats</p>
+          )}
         </div>
 
         <div className="mb-3">
           <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">Carbs</span>
-            <input className="form-control"
-            type="number" step="any"
-            {...register("carbs", {
-              valueAsNumber: true,required: true
-            })}
-          />
-          </div>   
+            <span class="input-group-text" id="basic-addon1">
+              Carbs
+            </span>
+            <input
+              className="form-control"
+              type="number"
+              step="any"
+              {...register("carbs", {
+                valueAsNumber: true,
+                required: true,
+              })}
+            />
+          </div>
           {errors.carbs && (
-              <p className="text-danger fs-6 fw-lighter">
-                Please enter carbs
-              </p>
-            )}      
+            <p className="text-danger fs-6 fw-lighter">Please enter carbs</p>
+          )}
         </div>
-        
+
         <div className="mb-3">
           <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">Protein</span>
-            <input className="form-control"
-            type="number" step="any"
-            {...register("protein", {
-              required: true
-            })}
-          />
-          </div>   
-          {errors.carbs && (
-              <p className="text-danger fs-6 fw-lighter">
-                Please enter protein
-              </p>
-            )}      
+            <span class="input-group-text" id="basic-addon1">
+              Protein
+            </span>
+            <input
+              className="form-control"
+              type="number"
+              step="any"
+              {...register("protein", {
+                valueAsNumber: true,
+
+                required: true,
+              })}
+            />
+          </div>
+          {errors.protein && (
+            <p className="text-danger fs-6 fw-lighter">Please enter protein</p>
+          )}
         </div>
 
         <div className="mb-3">
           <label htmlFor="serving" className="form-label">
-            Direction  
+            Direction
           </label>
-          <textarea class="form-control" type="text" {...register("direction", {
-              required: true
-            })} ></textarea>
+          <textarea rows="10"
+            class="form-control form-control-lg"
+            type="text"
+            {...register("direction", {
+              required: true,
+            })}
+          ></textarea>
           {errors.direction && (
             <p className="text-danger fs-6 fw-lighter">
               Please enter the directions
@@ -221,10 +297,27 @@ function NewRecipeForm({ postNewRecipe }) {
           )}
         </div>
 
-        <button type="submit" className="btn btn-primary" >
-          Add New
-        </button>
-        <Button as={Link} to=".." className="ms-2" variant="secondary">Cancle</Button>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">
+            Cover Image Upload
+          </label>
+          <input class="form-control" type="file" id="formFile" accept="image/*" {...register("image",{
+            required:true,
+          })} />
+          {errors.image && (
+            <p className="text-danger fs-6 fw-lighter">
+              Please upload image
+            </p>
+          )}
+        </div>
+        <div class="mb-3">
+          <button type="submit" className="btn btn-primary">
+            Add New
+          </button>
+          <Button as={Link} to=".." className="ms-2" variant="secondary">
+            Cancle
+          </Button>
+        </div>
       </form>
     </>
   );
