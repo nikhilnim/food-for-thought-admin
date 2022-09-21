@@ -2,11 +2,11 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { Button, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function EditRecipeForm({ recipe }) {
   const [imgSrc, setImgSrc] = useState(recipe.image)
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -111,6 +111,12 @@ function EditRecipeForm({ recipe }) {
     	console.log(err)
     }
   }
+
+  function deleteRecipe(){
+    navigate('../')
+  }
+
+  
   return (
     <>
       {/* <Link to="/recipes">link</Link> */}
@@ -371,6 +377,9 @@ function EditRecipeForm({ recipe }) {
           </button>
           <Button as={Link} to=".." className="ms-2" variant="secondary">
             Cancle
+          </Button>
+          <Button onClick={deleteRecipe} className="ms-2" variant="secondary">
+            Delete
           </Button>
         </div>
       </form>

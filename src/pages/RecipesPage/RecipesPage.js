@@ -14,7 +14,7 @@ const { REACT_APP_API_SERVER_URL } = process.env;
 function RecipesPage() {
 
   const [recipeList,setRecipeList] = useState([]);
-  const [activeRecipeId,setActiveRecipeId] = useState(0)
+  const [activeRecipeId,setActiveRecipeId] = useState("")
   const params = useParams();
   const navigate = useNavigate();
   let location = useLocation();
@@ -27,13 +27,16 @@ function RecipesPage() {
 
   useEffect(()=>{
     getRecipesList();
+    
     if(params.id){
       setActiveRecipeId(params.id)
+    }else{
+      setActiveRecipeId("")
     }
   },[params.id,location])
 
   function loadNewRecipeForm(){
-    setActiveRecipeId(0)
+    setActiveRecipeId("")
     navigate("new")
   }
 

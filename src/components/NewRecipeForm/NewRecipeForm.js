@@ -109,6 +109,7 @@ function NewRecipeForm({}) {
             <option value="poultry">Poultry</option>
             <option value="beef">Beef</option>
             <option value="fish">fish</option>
+            <option value="veg">Pork</option>
             <option value="veg">Veg</option>
           </select>
           {errors.type && (
