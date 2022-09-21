@@ -37,12 +37,10 @@ function NewRecipeForm({}) {
       image:recipe.image[0],
       cookTime:recipe.cookTime,
       direction:recipe.direction,
-      
-        calories:recipe.calories,
-        fat:recipe.fat,
-        protein:recipe.protein,
-        carbs:recipe.carbs,
-    
+      calories:recipe.calories,
+      fat:recipe.fat,
+      protein:recipe.protein,
+      carbs:recipe.carbs,
       ingredient:recipe.ingredient,
       intro:recipe.intro,
       prepTime:recipe.prepTime,

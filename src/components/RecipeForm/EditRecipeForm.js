@@ -1,16 +1,17 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { useEffect,useState } from "react";
+import { Button, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link,useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function EditRecipeForm({recipe}) {
-  const navigate = useNavigate()
+function EditRecipeForm({ recipe }) {
+  const [imgSrc, setImgSrc] = useState(recipe.image)
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
       title: recipe.title,
@@ -25,6 +26,7 @@ function EditRecipeForm({recipe}) {
       carbs: recipe.nutrition.carbs,
       protein: recipe.nutrition.protein,
       direction: recipe.direction,
+      image: null,
     },
   });
 
@@ -42,51 +44,83 @@ function EditRecipeForm({recipe}) {
       carbs: recipe.nutrition.carbs,
       protein: recipe.nutrition.protein,
       direction: recipe.direction,
-    })
-  }, [recipe])
-
-	const { REACT_APP_API_SERVER_URL } = process.env;
-
-  async function postNewRecipe(recipe) {
+      image: null,
+    });
     
+    setImgSrc(recipe.image)
+
+  }, [recipe]);
+
+ 
+
+  const { REACT_APP_API_SERVER_URL } = process.env;
+
+  async function updateRecipe(newRecipe) {
+    //  console.log(newRecipe.image[0])
+
     let payload = {
-      title:recipe.title,
-      type:recipe.type,
-      image:recipe.image[0],
-      cookTime:recipe.cookTime,
-      direction:recipe.direction,
-      
-        calories:recipe.calories,
-        fat:recipe.fat,
-        protein:recipe.protein,
-        carbs:recipe.carbs,
-    
-      ingredient:recipe.ingredient,
-      intro:recipe.intro,
-      prepTime:recipe.prepTime,
-      serving:recipe.serving,
-    } 
-
-    console.log(payload)
+      title: newRecipe.title,
+      type: newRecipe.type,
+      cookTime: newRecipe.cookTime,
+      direction: newRecipe.direction,
+      calories: newRecipe.calories,
+      fat: newRecipe.fat,
+      protein: newRecipe.protein,
+      carbs: newRecipe.carbs,
+      ingredient: newRecipe.ingredient,
+      intro: newRecipe.intro,
+      prepTime: newRecipe.prepTime,
+      serving: newRecipe.serving,
+    };
+  
+    if (newRecipe.image === null) {
+      payload.ogiImageName = recipe.image;
+      console.log("if block", payload);
+    } else if (newRecipe.image.length === 0) {
+      payload.ogiImageName = recipe.image;
+      console.log("else if block", payload);
+    } else {
+      payload.image = newRecipe.image.item(0);
+      console.log("else", payload);
+    }
 
     try{
-      const {data} = await axios.post(`${REACT_APP_API_SERVER_URL}/recipes`,payload,{
-				headers: {
-				  'Content-Type': 'multipart/form-data'
-				}
-			})
-      reset();
-      navigate("/recipes")
-      console.log(data)
+      const {data} = await axios.put(`${REACT_APP_API_SERVER_URL}/recipes/${recipe.id}`,payload,{
+    		headers: {
+    		  'Content-Type': 'multipart/form-data'
+    		}
+    	})
+   
+      reset({
+        title: data.title,
+        intro: data.intro,
+        type: data.type,
+        prepTime: data.prepTime,
+        cookTime: data.cookTime,
+        serving: data.serving,
+        ingredient: data.ingredient,
+        calories: data.nutrition.calories,
+        fat: data.nutrition.fat,
+        carbs: data.nutrition.carbs,
+        protein: data.nutrition.protein,
+        direction: data.direction,
+        image: null,
+      })
+      setImgSrc(data.image)
     }catch(err){
-			console.log(err)
-		}
-    
-  } 
+    	console.log(err)
+    }
+  }
   return (
     <>
       {/* <Link to="/recipes">link</Link> */}
-      <form onSubmit={handleSubmit(postNewRecipe)}>
+      <Image
+        fluid
+        thumbnail
+        className="mb-3"
+        src={`${REACT_APP_API_SERVER_URL}/images/${imgSrc}`}
+      ></Image>
+      <form onSubmit={handleSubmit(updateRecipe)}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             Title
@@ -104,9 +138,9 @@ function EditRecipeForm({recipe}) {
           <label htmlFor="intro" className="form-label">
             Introduction
           </label>
-          <textarea rows="5"
-            class="form-control form-control-lg"
-            className="form-control form-control-sm"
+          <textarea
+            rows="5"
+            className="form-control form-control-lg"
             {...register("intro", { required: true })}
           />
           {errors.intro && (
@@ -121,7 +155,7 @@ function EditRecipeForm({recipe}) {
             Select Meat or Veg
           </label>
           <select
-            class="form-select"
+            className="form-select"
             aria-label="Default select example"
             {...register("type", { required: true })}
           >
@@ -199,8 +233,9 @@ function EditRecipeForm({recipe}) {
           <label htmlFor="serving" className="form-label">
             Ingredient
           </label>
-          <textarea rows="10"
-            class="form-control form-control-lg"
+          <textarea
+            rows="10"
+            className="form-control form-control-lg"
             type="text"
             {...register("ingredient", {
               required: true,
@@ -217,8 +252,8 @@ function EditRecipeForm({recipe}) {
           Nutrition
         </label>
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Calories
             </span>
             <input
@@ -237,8 +272,8 @@ function EditRecipeForm({recipe}) {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Fat
             </span>
             <input
@@ -257,8 +292,8 @@ function EditRecipeForm({recipe}) {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Carbs
             </span>
             <input
@@ -277,8 +312,8 @@ function EditRecipeForm({recipe}) {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Protein
             </span>
             <input
@@ -298,11 +333,12 @@ function EditRecipeForm({recipe}) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="serving" className="form-label">
+          <label htmlFor="direction" className="form-label">
             Direction
           </label>
-          <textarea rows="10"
-            class="form-control form-control-lg"
+          <textarea
+            rows="10"
+            className="form-control form-control-lg"
             type="text"
             {...register("direction", {
               required: true,
@@ -315,21 +351,22 @@ function EditRecipeForm({recipe}) {
           )}
         </div>
 
-        <div class="mb-3">
-          <label for="formFile" class="form-label">
-            Cover Image Upload
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">
+            Update Cover Image
           </label>
-          <input class="form-control" type="file" id="formFile" accept="image/*" {...register("image",{
-            required:true,
-          })} />
+          <input className="form-control" type="file" accept="image/*" {...register("image")} />
           {errors.image && (
             <p className="text-danger fs-6 fw-lighter">
               Please upload image
             </p>
           )}
         </div>
-        <div class="mb-3">
-          <button type="submit" className="btn btn-primary">
+        <div className="mb-3">
+          {/* <button type="submit" className="btn btn-primary">
+            Confirm Edit
+          </button> */}
+          <button type="submit" className={isDirty ? "btn btn-primary" : "btn btn-primary disabled"}>
             Confirm Edit
           </button>
           <Button as={Link} to=".." className="ms-2" variant="secondary">
