@@ -376,7 +376,7 @@ function EditRecipeForm({ recipe }) {
             Confirm Edit
           </button>
           <Button as={Link} to=".." className="ms-2" variant="secondary">
-            Cancle
+            Cancel
           </Button>
           <Button onClick={deleteRecipe} className="ms-2" variant="secondary">
             Delete
