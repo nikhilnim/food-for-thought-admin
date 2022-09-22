@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import RecipesList from '../../components/RecipesList/RecipesList';
 
-import { Outlet, useParams, Link, useNavigate } from 'react-router-dom';
+import { Outlet, useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -14,10 +14,11 @@ const { REACT_APP_API_SERVER_URL } = process.env;
 function RecipesPage() {
 
   const [recipeList,setRecipeList] = useState([]);
-  const [activeRecipeId,setActiveRecipeId] = useState(0)
+  const [activeRecipeId,setActiveRecipeId] = useState("")
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.id);
+  let location = useLocation();
+
 
   async function getRecipesList(){
     const {data} = await axios.get(`${REACT_APP_API_SERVER_URL}/recipes`)
@@ -28,11 +29,13 @@ function RecipesPage() {
     getRecipesList();
     if(params.id){
       setActiveRecipeId(params.id)
+    }else{
+      setActiveRecipeId("")
     }
-  },[params.id])
+  },[params.id,location])
 
-  function TODO(){
-    setActiveRecipeId(0)
+  function loadNewRecipeForm(){
+    setActiveRecipeId("")
     navigate("new")
   }
 
@@ -40,7 +43,7 @@ function RecipesPage() {
     <Container fluid="xl">
       <Row className=''>
         <Col className='text-end'>
-          <Button variant="primary" onClick={TODO} className="my-3">Add New Recipe</Button>
+          <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button>
         </Col> 
       </Row>
       <Row>
