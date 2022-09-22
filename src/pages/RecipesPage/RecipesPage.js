@@ -27,7 +27,6 @@ function RecipesPage() {
 
   useEffect(()=>{
     getRecipesList();
-    
     if(params.id){
       setActiveRecipeId(params.id)
     }else{
