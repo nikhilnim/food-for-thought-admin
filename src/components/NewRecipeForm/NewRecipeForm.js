@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Button } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useForm,Controller } from "react-hook-form";
 import { Link,useNavigate } from "react-router-dom";
-
+import Select from "react-select";
 function NewRecipeForm({}) {
   const navigate = useNavigate()
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -14,7 +15,7 @@ function NewRecipeForm({}) {
     defaultValues: {
       title: "",
       intro: "",
-      type: "",
+      type: [],
       prepTime: "",
       cookTime: "",
       serving: "",
@@ -27,13 +28,25 @@ function NewRecipeForm({}) {
     },
   });
 
+  const recipeTypes=[
+    { value: "poultry", label: "Poultry" },
+    { value: "veg", label: "Veg" },
+    { value: "beef", label: "Beef" },
+    { value: "fish", label: "Fish" },
+    { value: "snacks", label: "Snacks" },
+    { value: "dessert", label: "Dessert" },
+    { value: "sides", label: "Sides" },
+    { value: "appetizers", label: "Appetizers" }
+  ]
 	const { REACT_APP_API_SERVER_URL } = process.env;
 
   async function postNewRecipe(recipe) {
-    
+    let recipeTypes = recipe.type.map((e)=>{
+      return e.value
+    })
     let payload = {
       title:recipe.title,
-      type:recipe.type,
+      type:JSON.stringify(recipeTypes),
       image:recipe.image[0],
       cookTime:recipe.cookTime,
       direction:recipe.direction,
@@ -100,7 +113,13 @@ function NewRecipeForm({}) {
           <label htmlFor="prepTime" className="form-label">
             Select Meat or Veg
           </label>
-          <select
+          <Controller 
+            name="type"
+            control={control}
+            rules={{ required: true }}
+            render={({field})=><Select {...field} options={recipeTypes} isMulti/>}
+          />
+          {/* <select
             class="form-select"
             aria-label="Default select example"
             {...register("type", { required: true })}
@@ -111,7 +130,7 @@ function NewRecipeForm({}) {
             <option value="fish">fish</option>
             <option value="veg">Pork</option>
             <option value="veg">Veg</option>
-          </select>
+          </select> */}
           {errors.type && (
             <p className="text-danger fs-6 fw-lighter">
               Please enter Introduction

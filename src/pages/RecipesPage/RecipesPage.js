@@ -34,16 +34,20 @@ function RecipesPage() {
     }
   },[params.id,location])
 
-  function loadNewRecipeForm(){
-    setActiveRecipeId("")
-    navigate("new")
-  }
+  // function loadNewRecipeForm(){
+  //   setActiveRecipeId("")
+  //   navigate("new")
+  // }
 
   return (
     <Container fluid="xl">
       <Row className=''>
         <Col className='text-end'>
-          <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button>
+          {/* <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button> */}
+          {/* <Link to="">test</Link> */}
+          <Button as={Link} to="new" className="my-3" variant="primary" >
+            Add new recipe
+          </Button>
         </Col> 
       </Row>
       <Row>

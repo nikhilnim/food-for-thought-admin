@@ -1,13 +1,14 @@
 import axios from "axios";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Image } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-
+import Select from "react-select";
 function EditRecipeForm({ recipe }) {
-  const [imgSrc, setImgSrc] = useState(recipe.image)
-  const navigate = useNavigate()
+  const [imgSrc, setImgSrc] = useState(recipe.image);
+  const navigate = useNavigate();
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -16,7 +17,7 @@ function EditRecipeForm({ recipe }) {
     defaultValues: {
       title: recipe.title,
       intro: recipe.intro,
-      type: recipe.type,
+      type: [],
       prepTime: recipe.prepTime,
       cookTime: recipe.cookTime,
       serving: recipe.serving,
@@ -34,7 +35,9 @@ function EditRecipeForm({ recipe }) {
     reset({
       title: recipe.title,
       intro: recipe.intro,
-      type: recipe.type,
+      type: recipe.type.map((e)=>{
+        return { value: `${e}`, label: `${e}` }
+      }),
       prepTime: recipe.prepTime,
       cookTime: recipe.cookTime,
       serving: recipe.serving,
@@ -46,21 +49,19 @@ function EditRecipeForm({ recipe }) {
       direction: recipe.direction,
       image: null,
     });
-    
-    setImgSrc(recipe.image)
-
+    setImgSrc(recipe.image);
   }, [recipe]);
-
- 
 
   const { REACT_APP_API_SERVER_URL } = process.env;
 
   async function updateRecipe(newRecipe) {
-    //  console.log(newRecipe.image[0])
+     console.log(newRecipe)
 
     let payload = {
       title: newRecipe.title,
-      type: newRecipe.type,
+      type: JSON.stringify(newRecipe.type.map((e)=>{
+        return e.value
+      })),
       cookTime: newRecipe.cookTime,
       direction: newRecipe.direction,
       calories: newRecipe.calories,
@@ -72,7 +73,7 @@ function EditRecipeForm({ recipe }) {
       prepTime: newRecipe.prepTime,
       serving: newRecipe.serving,
     };
-  
+
     if (newRecipe.image === null) {
       payload.ogiImageName = recipe.image;
       console.log("if block", payload);
@@ -90,11 +91,13 @@ function EditRecipeForm({ recipe }) {
     		  'Content-Type': 'multipart/form-data'
     		}
     	})
-   
+      console.log(data)
       reset({
         title: data.title,
         intro: data.intro,
-        type: data.type,
+        type: data.type.map((e)=>{
+          return { value: `${e}`, label: `${e}` }
+        }),
         prepTime: data.prepTime,
         cookTime: data.cookTime,
         serving: data.serving,
@@ -111,12 +114,21 @@ function EditRecipeForm({ recipe }) {
     	console.log(err)
     }
   }
+  const types=[
+    { value: "poultry", label: "Poultry" },
+    { value: "veg", label: "Veg" },
+    { value: "beef", label: "Beef" },
+    { value: "fish", label: "Fish" },
+    { value: "snacks", label: "Snacks" },
+    { value: "dessert", label: "Dessert" },
+    { value: "sides", label: "Sides" },
+    { value: "appetizers", label: "Appetizers" }
+  ]
 
-  function deleteRecipe(){
-    navigate('../')
+  function deleteRecipe() {
+    navigate("../");
   }
 
-  
   return (
     <>
       {/* <Link to="/recipes">link</Link> */}
@@ -160,7 +172,14 @@ function EditRecipeForm({ recipe }) {
           <label htmlFor="prepTime" className="form-label">
             Select Meat or Veg
           </label>
-          <select
+          <Controller
+            name="type"
+            control={control}
+            render={({ field }) => <Select isMulti {...field} options={types}  />
+            }
+            rules={{ required: true }}
+          />
+          {/* <select
             className="form-select"
             aria-label="Default select example"
             {...register("type", { required: true })}
@@ -170,7 +189,7 @@ function EditRecipeForm({ recipe }) {
             <option value="beef">Beef</option>
             <option value="fish">fish</option>
             <option value="veg">Veg</option>
-          </select>
+          </select> */}
           {errors.type && (
             <p className="text-danger fs-6 fw-lighter">
               Please enter Introduction
@@ -361,18 +380,24 @@ function EditRecipeForm({ recipe }) {
           <label htmlFor="image" className="form-label">
             Update Cover Image
           </label>
-          <input className="form-control" type="file" accept="image/*" {...register("image")} />
+          <input
+            className="form-control"
+            type="file"
+            accept="image/*"
+            {...register("image")}
+          />
           {errors.image && (
-            <p className="text-danger fs-6 fw-lighter">
-              Please upload image
-            </p>
+            <p className="text-danger fs-6 fw-lighter">Please upload image</p>
           )}
         </div>
         <div className="mb-3">
           {/* <button type="submit" className="btn btn-primary">
             Confirm Edit
           </button> */}
-          <button type="submit" className={isDirty ? "btn btn-primary" : "btn btn-primary disabled"}>
+          <button
+            type="submit"
+            className={isDirty ? "btn btn-primary" : "btn btn-primary disabled"}
+          >
             Confirm Edit
           </button>
           <Button as={Link} to=".." className="ms-2" variant="secondary">
