@@ -41,6 +41,11 @@ function RecipesPage() {
 
   return (
     <Container fluid="xl">
+      <Row className='mt-3'>
+        <Col>
+          <h1 className='fs-3'>Dashboard</h1>
+        </Col>
+      </Row>
       <Row className=''>
         <Col className='text-end'>
           {/* <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button> */}

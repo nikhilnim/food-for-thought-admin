@@ -4,6 +4,7 @@ import { Button, Image } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
+const { REACT_APP_API_SERVER_URL } = process.env;
 function EditRecipeForm({ recipe }) {
   const [imgSrc, setImgSrc] = useState(recipe.image);
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function EditRecipeForm({ recipe }) {
     setImgSrc(recipe.image);
   }, [recipe]);
 
-  const { REACT_APP_API_SERVER_URL } = process.env;
+
 
   async function updateRecipe(newRecipe) {
      console.log(newRecipe)
@@ -125,8 +126,15 @@ function EditRecipeForm({ recipe }) {
     { value: "appetizers", label: "Appetizers" }
   ]
 
-  function deleteRecipe() {
-    navigate("../");
+  async function deleteRecipe() {
+    try{
+      let {data} = await axios.delete(`${REACT_APP_API_SERVER_URL}/recipes/${recipe.id}`)
+      console.log(data)
+      navigate('..')
+    }catch(err){
+      console.log(err)
+    }
+  
   }
 
   return (

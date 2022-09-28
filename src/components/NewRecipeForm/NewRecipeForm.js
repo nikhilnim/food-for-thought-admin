@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useForm,Controller } from "react-hook-form";
 import { Link,useNavigate } from "react-router-dom";
 import Select from "react-select";
-function NewRecipeForm({}) {
+function NewRecipeForm() {
   const navigate = useNavigate()
   const {
     control,
@@ -33,6 +33,7 @@ function NewRecipeForm({}) {
     { value: "veg", label: "Veg" },
     { value: "beef", label: "Beef" },
     { value: "fish", label: "Fish" },
+    { value: "pork", label: "Pork" },
     { value: "snacks", label: "Snacks" },
     { value: "dessert", label: "Dessert" },
     { value: "sides", label: "Sides" },
