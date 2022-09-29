@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.scss';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import PageHeader from './components/PageHeader/PageHeader';
