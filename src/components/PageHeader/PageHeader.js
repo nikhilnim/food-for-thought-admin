@@ -6,8 +6,8 @@ import { Image } from "react-bootstrap";
 import LOGO from '../../assets/images/FFT.png'
 function PageHeader() {
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
+    <Navbar bg="Light" variant="light">
+      <Container className="align-items-end">
       <Navbar.Brand as={Link} to={"/recipes"} className="col-lg-2 col-sm-4 col-7">
           <Image src={LOGO} fluid></Image>
         </Navbar.Brand>

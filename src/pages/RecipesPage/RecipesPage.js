@@ -46,7 +46,7 @@ function RecipesPage() {
         </Col>
       </Row>
       <Row className=''>
-        <Col className='text-end'>
+        <Col>
           {/* <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button> */}
           {/* <Link to="">test</Link> */}
           <Button as={Link} to="new" className="my-3" variant="primary" >
