@@ -51,7 +51,7 @@ function EditRecipeForm({ recipe }) {
       image: null,
     });
     setImgSrc(recipe.image);
-  }, [recipe]);
+  }, [recipe,reset]);
 
 
 

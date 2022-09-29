@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import RecipesList from '../../components/RecipesList/RecipesList';
 
-import { Outlet, useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -16,7 +16,6 @@ function RecipesPage() {
   const [recipeList,setRecipeList] = useState([]);
   const [activeRecipeId,setActiveRecipeId] = useState("")
   const params = useParams();
-  const navigate = useNavigate();
   let location = useLocation();
 
 
