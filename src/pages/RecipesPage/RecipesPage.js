@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import RecipesList from '../../components/RecipesList/RecipesList';
 
-import { Outlet, useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -16,7 +16,6 @@ function RecipesPage() {
   const [recipeList,setRecipeList] = useState([]);
   const [activeRecipeId,setActiveRecipeId] = useState("")
   const params = useParams();
-  const navigate = useNavigate();
   let location = useLocation();
 
 
@@ -34,19 +33,28 @@ function RecipesPage() {
     }
   },[params.id,location])
 
-  function loadNewRecipeForm(){
-    setActiveRecipeId("")
-    navigate("new")
-  }
+  // function loadNewRecipeForm(){
+  //   setActiveRecipeId("")
+  //   navigate("new")
+  // }
 
   return (
     <Container fluid="xl">
+      <Row className='mt-3'>
+        <Col>
+          <h1 className='fs-3'>Dashboard</h1>
+        </Col>
+      </Row>
       <Row className=''>
-        <Col className='text-end'>
-          <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button>
+        <Col>
+          {/* <Button variant="primary" onClick={loadNewRecipeForm} className="my-3">Add New Recipe</Button> */}
+          {/* <Link to="">test</Link> */}
+          <Button as={Link} to="new" className="my-3" variant="primary" >
+            Add new recipe
+          </Button>
         </Col> 
       </Row>
-      <Row>
+      <Row className='mb-5'>
         <Col className='col-sm-5'>
         <h1>Recipes List</h1>
          {recipeList && <RecipesList recipeList={recipeList} activeRecipeId={activeRecipeId}/>} 
