@@ -3,19 +3,14 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import EditRecipeForm from "../../components/RecipeForm/EditRecipeForm";
+import EditRecipeForm from "../../components/EditRecipeForm/EditRecipeForm";
 
 
 function AddEditRecipe() {
   const [recipe,setRecipe] = useState(null)  
   const param = useParams()
   
-  
-
-  
-
   useEffect(()=>{
-
     const { REACT_APP_API_SERVER_URL } = process.env;
     async function getRecipeById(recipeId){
       const {data} = await axios.get(`${REACT_APP_API_SERVER_URL}/recipes/${recipeId}`)
@@ -29,12 +24,9 @@ function AddEditRecipe() {
     
   },[param])
 
-  function afterSumbit(data){
-    console.log(data)
-  }
 
   if(recipe){
-      return <EditRecipeForm afterSumbit={afterSumbit} recipe={recipe}></EditRecipeForm>
+      return <EditRecipeForm  recipe={recipe}></EditRecipeForm>
   }else{
     return null
   }

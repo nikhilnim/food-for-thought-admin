@@ -111,6 +111,7 @@ function EditRecipeForm({ recipe }) {
         image: null,
       })
       setImgSrc(data.image)
+      navigate("/recipes")
     }catch(err){
     	console.log(err)
     }
@@ -140,6 +141,7 @@ function EditRecipeForm({ recipe }) {
   return (
     <>
       {/* <Link to="/recipes">link</Link> */}
+      <h2 className="mb-4">View/Edit Recipe</h2>
       <Image
         fluid
         thumbnail

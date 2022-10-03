@@ -54,7 +54,7 @@ function RecipesPage() {
           </Button>
         </Col> 
       </Row>
-      <Row>
+      <Row className='mb-5'>
         <Col className='col-sm-5'>
         <h1>Recipes List</h1>
          {recipeList && <RecipesList recipeList={recipeList} activeRecipeId={activeRecipeId}/>} 
