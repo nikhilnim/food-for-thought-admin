@@ -60,9 +60,6 @@ function NewRecipeForm() {
       prepTime:recipe.prepTime,
       serving:recipe.serving,
     } 
-
-    console.log(payload)
-
     try{
       const {data} = await axios.post(`${REACT_APP_API_SERVER_URL}/recipes`,payload,{
 				headers: {
@@ -71,7 +68,6 @@ function NewRecipeForm() {
 			})
       reset();
       navigate("/recipes")
-      console.log(data)
     }catch(err){
 			console.log(err)
 		}
@@ -99,8 +95,7 @@ function NewRecipeForm() {
             Introduction
           </label>
           <textarea rows="5"
-            class="form-control form-control-lg"
-            className="form-control form-control-sm"
+            className="form-control form-control-lg"
             {...register("intro", { required: true })}
           />
           {errors.intro && (
@@ -120,18 +115,6 @@ function NewRecipeForm() {
             rules={{ required: true }}
             render={({field})=><Select {...field} options={recipeTypes} isMulti/>}
           />
-          {/* <select
-            class="form-select"
-            aria-label="Default select example"
-            {...register("type", { required: true })}
-          >
-            <option value="">Select Type</option>
-            <option value="poultry">Poultry</option>
-            <option value="beef">Beef</option>
-            <option value="fish">fish</option>
-            <option value="veg">Pork</option>
-            <option value="veg">Veg</option>
-          </select> */}
           {errors.type && (
             <p className="text-danger fs-6 fw-lighter">
               Please enter Introduction
@@ -201,7 +184,7 @@ function NewRecipeForm() {
             Ingredient
           </label>
           <textarea rows="10"
-            class="form-control form-control-lg"
+            className="form-control form-control-lg"
             type="text"
             {...register("ingredient", {
               required: true,
@@ -218,8 +201,8 @@ function NewRecipeForm() {
           Nutrition
         </label>
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Calories
             </span>
             <input
@@ -238,8 +221,8 @@ function NewRecipeForm() {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Fat
             </span>
             <input
@@ -258,8 +241,8 @@ function NewRecipeForm() {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Carbs
             </span>
             <input
@@ -278,8 +261,8 @@ function NewRecipeForm() {
         </div>
 
         <div className="mb-3">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
               Protein
             </span>
             <input
@@ -303,7 +286,7 @@ function NewRecipeForm() {
             Direction
           </label>
           <textarea rows="10"
-            class="form-control form-control-lg"
+            className="form-control form-control-lg"
             type="text"
             {...register("direction", {
               required: true,
@@ -316,11 +299,11 @@ function NewRecipeForm() {
           )}
         </div>
 
-        <div class="mb-3">
-          <label for="formFile" class="form-label">
+        <div className="mb-3">
+          <label htmlFor="formFile" className="form-label">
             Cover Image Upload
           </label>
-          <input class="form-control" type="file" id="formFile" accept="image/*" {...register("image",{
+          <input className="form-control" type="file" id="formFile" accept="image/*" {...register("image",{
             required:true,
           })} />
           {errors.image && (
@@ -329,11 +312,11 @@ function NewRecipeForm() {
             </p>
           )}
         </div>
-        <div class="mb-3">
-          <button type="submit" className="btn btn-primary">
+        <div className="mb-3">
+          <button type="submit" className="btn btn-primary mb-3 me-2 mb-sm-0">
             Add New
           </button>
-          <Button as={Link} to=".." className="ms-2" variant="secondary">
+          <Button as={Link} to=".." className="" variant="secondary">
             Cancle
           </Button>
         </div>

@@ -56,8 +56,6 @@ function EditRecipeForm({ recipe }) {
 
 
   async function updateRecipe(newRecipe) {
-     console.log(newRecipe)
-
     let payload = {
       title: newRecipe.title,
       type: JSON.stringify(newRecipe.type.map((e)=>{
@@ -77,13 +75,10 @@ function EditRecipeForm({ recipe }) {
 
     if (newRecipe.image === null) {
       payload.ogiImageName = recipe.image;
-      console.log("if block", payload);
     } else if (newRecipe.image.length === 0) {
       payload.ogiImageName = recipe.image;
-      console.log("else if block", payload);
     } else {
       payload.image = newRecipe.image.item(0);
-      console.log("else", payload);
     }
 
     try{
@@ -92,7 +87,6 @@ function EditRecipeForm({ recipe }) {
     		  'Content-Type': 'multipart/form-data'
     		}
     	})
-      console.log(data)
       reset({
         title: data.title,
         intro: data.intro,
@@ -130,7 +124,6 @@ function EditRecipeForm({ recipe }) {
   async function deleteRecipe() {
     try{
       let {data} = await axios.delete(`${REACT_APP_API_SERVER_URL}/recipes/${recipe.id}`)
-      console.log(data)
       navigate('..')
     }catch(err){
       console.log(err)
@@ -406,14 +399,14 @@ function EditRecipeForm({ recipe }) {
           </button> */}
           <button
             type="submit"
-            className={isDirty ? "btn btn-primary" : "btn btn-primary disabled"}
+            className={isDirty ? "btn btn-primary me-2 mb-2 mb-sm-0" : "btn btn-primary disabled me-2 mb-2 mb-sm-0"}
           >
             Confirm Edit
           </button>
-          <Button as={Link} to=".." className="ms-2" variant="secondary">
+          <Button as={Link} to=".." className="me-2" variant="warning">
             Cancel
           </Button>
-          <Button onClick={deleteRecipe} className="ms-2" variant="secondary">
+          <Button onClick={deleteRecipe} className="" variant="danger">
             Delete
           </Button>
         </div>

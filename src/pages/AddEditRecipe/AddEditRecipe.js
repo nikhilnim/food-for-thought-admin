@@ -14,11 +14,9 @@ function AddEditRecipe() {
     const { REACT_APP_API_SERVER_URL } = process.env;
     async function getRecipeById(recipeId){
       const {data} = await axios.get(`${REACT_APP_API_SERVER_URL}/recipes/${recipeId}`)
-      console.log(data)
       setRecipe(data);
     }
     if(param.id){
-      console.log("param,",param)
       getRecipeById(param.id)
     }
     
