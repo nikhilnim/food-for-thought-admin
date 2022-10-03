@@ -1,3 +1,48 @@
+
+# Food For Thought Admin/DashBoard
+
+A recipe management admin panel for Food For Thought client side
+
+## Appendix
+
+This project works in conjunction with backend server and Client side
+
+Server github: https://github.com/nikhilnim/food-for-thought-server
+
+Client github: https://github.com/nikhilnim/food-for-thought-client
+
+Before running this project please start the server. Instructions on server are present on server github. Additionally you can sort recipes on client side, the Instructions for client is present on 
+client github
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/nikhilnim/food-for-thought-admin
+```
+
+Go to the project directory
+
+```bash
+  cd food-for-thought-admin
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
